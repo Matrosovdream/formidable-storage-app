@@ -83,6 +83,16 @@ services:
     networks:
       - laravel-development
 
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - laravel-development
+
+
   redis:
     image: redis:alpine
     networks:
