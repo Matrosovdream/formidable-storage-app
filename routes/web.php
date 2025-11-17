@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 require_once __DIR__ . '/api.php';
+require_once __DIR__ . '/rest_api.php';
 
 
 
-// Catch-all for SPA, but NOT for /api/* or /sanctum/*
-Route::view('/{any}', 'spa')
-    ->where('any', '^(?!api|sanctum).*$');
+// Catch-all for SPA, but NOT for for the listed prefixes
+Route::view('/{any}', 'spa')->where('any', '^(?!api|sanctum|rest).*$');
+
 
 Route::get('/health', function () {
     $status = [];
