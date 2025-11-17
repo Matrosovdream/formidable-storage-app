@@ -20,7 +20,7 @@ const loadUser = async () => {
 };
 
 const logout = async () => {
-    await axios.post('/api/logout');
+    await axios.get('/api/logout');
     await router.push({ name: 'login' });
 };
 

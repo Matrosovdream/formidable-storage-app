@@ -3,14 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::view('/{any}', 'spa')->where('any', '.*');
+// If you want root / to also show SPA:
+Route::view('/', 'spa');
 
-
-Route::get('/', function () {
-    Log::info('Welcome page visited');
-    return view('welcome');
-});
-
+// Catch-all for SPA, but NOT for /api/* or /sanctum/*
+Route::view('/{any}', 'spa')
+    ->where('any', '^(?!api|sanctum).*$');
 
 Route::get('/health', function () {
     $status = [];
