@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+Route::view('/{any}', 'spa')->where('any', '.*');
+
+
 Route::get('/', function () {
     Log::info('Welcome page visited');
     return view('welcome');
