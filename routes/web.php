@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+require_once __DIR__ . '/api.php';
 
-// If you want root / to also show SPA:
-Route::view('/', 'spa');
+
 
 // Catch-all for SPA, but NOT for /api/* or /sanctum/*
 Route::view('/{any}', 'spa')
