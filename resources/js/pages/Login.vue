@@ -39,7 +39,7 @@ const submit = async () => {
 
 <template>
 
-    
+        <!--
         <div class="d-flex flex-column flex-root" id="kt_app_root">
 
 			<div class="d-flex flex-column flex-column-fluid flex-lg-row">
@@ -146,8 +146,9 @@ const submit = async () => {
 			</div>
 
 		</div>
+        -->
 
-    <!--
+    
     <div class="min-h-screen flex items-center justify-center bg-gray-100">
         <div class="w-full max-w-md bg-white shadow-md rounded px-8 py-6">
             <h1 class="text-2xl font-bold mb-4 text-center">Login</h1>
@@ -217,7 +218,7 @@ const submit = async () => {
             </form>
         </div>
     </div>
-    -->
+    
 
 </template>
 
