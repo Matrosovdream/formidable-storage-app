@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Frm\EntryUpdateTypeSeeder;
+use Database\Seeders\User\UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,7 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
 
             // Frm
-            EntryUpdateTypeSeeder::class
+            EntryUpdateTypeSeeder::class,
+            UserSeeder::class,
         ]);
 
     }

@@ -21,9 +21,9 @@ class EntryUpdateTypeSeeder extends Seeder {
 
     protected function getItems() {
         return [
-            ['id' => 1, 'code' => 'create', 'title' => 'Create'],
-            ['id' => 2, 'code' => 'update', 'title' => 'Update'],
-            ['id' => 3, 'code' => 'delete', 'title' => 'Delete'],
+            ['code' => 'create', 'title' => 'Create'],
+            ['code' => 'update', 'title' => 'Update'],
+            ['code' => 'delete', 'title' => 'Delete'],
         ];
     }
 
