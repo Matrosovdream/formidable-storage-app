@@ -10,6 +10,11 @@ require_once __DIR__ . '/rest_api.php';
 // Catch-all for SPA, but NOT for for the listed prefixes
 Route::view('/{any}', 'spa')->where('any', '^(?!api|sanctum|rest|health).*$');
 
+// Main login route
+Route::get('/login', function () {
+
+})->name('login');
+
 
 Route::get('/health', function () {
     $status = [];
