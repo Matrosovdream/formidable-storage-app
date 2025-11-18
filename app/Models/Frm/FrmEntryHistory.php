@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Frm;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Site\Site;
 
 class FrmEntryHistory extends Model
 {

@@ -3,7 +3,7 @@
 namespace Database\Seeders\Frm;
 
 use Illuminate\Database\Seeder; 
-use App\Models\FrmEntryUpdateType;
+use App\Models\Frm\FrmEntryUpdateType;
 
 class EntryUpdateTypeSeeder extends Seeder {
 

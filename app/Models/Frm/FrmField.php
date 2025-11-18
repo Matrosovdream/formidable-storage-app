@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Frm;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Site\Site;
 
-class SiteToken extends Model
+class FrmField extends Model
 {
     
     protected $fillable = [
+        'field_id',
         'site_id',
-        'token',
-        'valid_until'
+        'key',
+        'type',
+        'label'
     ];
 
-    protected $table = 'site_tokens';
+    protected $table = 'frm_fields';
 
     public function site() {
         return $this->belongsTo(Site::class);

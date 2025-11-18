@@ -8,7 +8,7 @@ require_once __DIR__ . '/rest_api.php';
 
 
 // Catch-all for SPA, but NOT for for the listed prefixes
-Route::view('/{any}', 'spa')->where('any', '^(?!api|sanctum|rest).*$');
+Route::view('/{any}', 'spa')->where('any', '^(?!api|sanctum|rest|health).*$');
 
 
 Route::get('/health', function () {
