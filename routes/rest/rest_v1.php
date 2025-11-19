@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FrmEntryHistoryController;
+use App\Http\Controllers\Rest\v1\FrmEntryHistoryController;
 
 Route::prefix('rest')
-    ->middleware('rest.token')
+    //->middleware('rest.token')
     ->group(function () {
 
         Route::prefix('v1')->group(function () {
@@ -14,8 +14,7 @@ Route::prefix('rest')
 
                 Route::prefix('history')->group(function () {
 
-                    Route::post('/update', [FrmEntryHistoryController::class, 'update']);
-
+                    Route::any('/update', [FrmEntryHistoryController::class, 'update']);
                     //Route::get('/list', [FrmEntryHistoryController::class, 'list']);
                     //Route::get('/view/{id}', [FrmEntryHistoryController::class, 'view']);
 
@@ -29,7 +28,7 @@ Route::prefix('rest')
                     'version' => '1.0.0',
                     'timestamp' => now()->toIso8601String(),
                 ]);
-            });
+            }); 
 
         });
 
