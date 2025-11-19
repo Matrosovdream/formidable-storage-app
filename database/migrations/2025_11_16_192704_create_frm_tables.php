@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('frm_fields', function (Blueprint $table) {
             $table->id();
             $table->integer('field_id')->nullable();
-            $table->foreignId('site_id')->constrained('sites')->onDelete('cascade');
+            $table->foreignId('site_id')->on('sites');
             $table->string('key')->nullable();
             $table->string('type')->nullable();
             $table->string('label')->nullable();
@@ -34,8 +34,8 @@ return new class extends Migration
         Schema::create('frm_entry_history', function (Blueprint $table) {
             $table->id();
             $table->integer('entry_id')->nullable();
-            $table->foreignId('site_id')->constrained('sites')->onDelete('cascade');
-            $table->foreignId('field_id')->constrained('frm_fields')->onDelete('cascade');
+            $table->foreignId('site_id')->on('sites');
+            $table->foreignId('field_id')->on('frm_fields');
             $table->foreignId('update_type_id')->constrained('frm_entry_update_types')->nullable();
             $table->text('value')->nullable();
             $table->timestamps();

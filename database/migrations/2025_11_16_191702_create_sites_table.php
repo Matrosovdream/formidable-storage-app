@@ -20,7 +20,8 @@ return new class extends Migration
 
         // Site tokens for API access could be added here, site_tokens
         Schema::create('site_tokens', function (Blueprint $table) {
-            $table->foreignId('site_id')->constrained('sites')->onDelete('cascade');
+            $table->id();
+            $table->foreignId('site_id')->on('sites');
             $table->string('token')->unique();
             $table->timestamp('valid_until')->nullable();
             $table->timestamps();
