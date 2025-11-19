@@ -1,23 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+// Rest API
+require_once __DIR__ . '/rest/rest_v1.php';
 
 
-// API routes
-Route::group(['prefix' => 'api'], function() {
-
-    // User routes
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
-    // Authentication routes
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-    Route::post('/register', [RegisteredUserController::class, 'store']);   
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
-
-});
 
