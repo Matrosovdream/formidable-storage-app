@@ -33,6 +33,16 @@ abstract class AbstractRepo
 
     }
 
+    public function getByField($field, $value)
+    {
+        $item = $this->model
+            ->where($field, $value)
+            ->with($this->withRelations)
+            ->first();
+
+        return $this->mapItem($item);
+    }
+
     public function getByUserID($user_id)
     {
         $item = $this->model
