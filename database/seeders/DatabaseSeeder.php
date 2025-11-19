@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Frm\EntryUpdateTypeSeeder;
 use Database\Seeders\User\UserSeeder;
+use Database\Seeders\Site\SiteSeeder;
+use Database\Seeders\Site\SiteTokenSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +19,10 @@ class DatabaseSeeder extends Seeder
     {
         
         $this->call([
+
+            // Site
+            SiteSeeder::class,
+            SiteTokenSeeder::class,
 
             // Frm
             EntryUpdateTypeSeeder::class,
