@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Services\Frm;
+
+use Illuminate\Support\Facades\DB;
+use Throwable;
+use App\Repositories\Frm\FrmEntryHistoryRepo;
+
+class FrmEntryHistoryService {
+
+    protected $historyRepo;
+
+    public function __construct() {
+        $this->historyRepo = new FrmEntryHistoryRepo();
+    }
+
+    public function updateEntryHistory(array $data): bool
+    {
+        $site_id  = $data['site_id'];
+        $entry_id = $data['entry_id'];
+    
+        $entries = [];
+    
+        // Updated
+        foreach ($data['updated'] as $item) {
+            $entries[] = [
+                'entry_id'       => $entry_id,
+                'site_id'        => $site_id,
+                'field_id'       => $item['field_id'],
+                'update_type_id' => 2, // Updated
+                'value'          => $item['value'],
+            ];
+        }
+    
+        // Created
+        foreach ($data['created'] as $item) {
+            $entries[] = [
+                'entry_id'       => $entry_id,
+                'site_id'        => $site_id,
+                'field_id'       => $item['field_id'],
+                'update_type_id' => 1, // Created
+                'value'          => $item['value'],
+            ];
+        }
+    
+        DB::beginTransaction();
+    
+        try {
+    
+            foreach ($entries as $entryData) {
+                $this->historyRepo->create($entryData);
+            }
+    
+            DB::commit();
+            return true;
+    
+        } catch (Throwable $e) {
+    
+            DB::rollBack();
+    
+            // Optional: log or rethrow
+            report($e);
+            // throw $e;
+    
+            return false;
+        }
+    }
+
+}
