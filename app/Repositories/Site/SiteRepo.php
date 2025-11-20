@@ -8,7 +8,7 @@ use App\Models\Site\Site;
 class SiteRepo extends AbstractRepo
 {
 
-    protected $model;
+    public $model;
 
     protected $fields = [];
 
