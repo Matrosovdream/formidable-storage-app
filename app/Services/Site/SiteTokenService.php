@@ -12,6 +12,21 @@ class SiteTokenService {
         $this->tokenRepo = new SiteTokenRepo();
     }
 
+    public function createToken(int $site_id)
+    {
+
+        // Generate token
+        $tokenString = bin2hex(random_bytes(16));
+
+        $token = $this->tokenRepo->model->updateOrCreate(
+            [ 'site_id' => $site_id ], 
+            [ 'token' => $tokenString ]
+        );
+
+        return $this->tokenRepo->getByid( $token->id );
+
+    }
+
     public function validateToken(string $token): bool {
         
         $token = $this->tokenRepo->getByField('token', $token);
