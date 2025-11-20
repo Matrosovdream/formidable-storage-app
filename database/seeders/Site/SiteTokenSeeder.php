@@ -20,9 +20,7 @@ class SiteTokenSeeder extends Seeder {
     }
 
     protected function getItems() {
-        return [
-            ['site_id' => 1, 'token' => '123', 'valid_until' => null ],
-        ];
+        return [];
     }
 
 }
