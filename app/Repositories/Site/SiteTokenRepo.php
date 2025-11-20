@@ -8,7 +8,7 @@ use App\Models\Site\SiteToken;
 class SiteTokenRepo extends AbstractRepo
 {
 
-    protected $model;
+    public $model;
 
     protected $fields = [];
 
