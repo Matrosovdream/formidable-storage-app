@@ -3,25 +3,29 @@
 namespace Database\Seeders\Site;
 
 use Illuminate\Database\Seeder; 
-use App\Models\Site\Site;
+use App\Services\Site\SiteService;
 
 class SiteSeeder extends Seeder {
+
+    public function __construct(
+        protected SiteService $siteService,
+    ) {
+
+    }
 
     public function run() {
 
         $items = $this->getItems();
 
         foreach ($items as $item) {
-            Site::firstOrCreate(
-                [ 'url' => $item['url'] ], 
-                $item);
+            $this->siteService->createSite($item);
         }
 
     }
 
     protected function getItems() {
         return [
-            ['url' => 'https://example.com', 'name' => 'Example Site' ],
+            ['url' => 'https://unitedpassport.com', 'name' => 'United Passport' ],
         ];
     }
 
