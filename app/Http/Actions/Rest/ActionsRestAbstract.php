@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Rest;
 
-class ActionsRestAbstract {
+abstract class ActionsRestAbstract {
 
     public function returnSuccess( $message, $data = [] ) {
         return [
