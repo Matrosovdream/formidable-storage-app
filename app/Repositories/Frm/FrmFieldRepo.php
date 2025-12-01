@@ -8,7 +8,7 @@ use App\Models\Frm\FrmField;
 class FrmFieldRepo extends AbstractRepo
 {
 
-    protected $model;
+    public $model;
 
     protected $fields = [];
 
