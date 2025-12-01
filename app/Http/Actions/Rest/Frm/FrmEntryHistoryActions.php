@@ -23,9 +23,8 @@ class FrmEntryHistoryActions extends ActionsRestAbstract
 
         // Get bearer token from request headers
         $data = $this->prepareRequestData( $request );
-        return $data;
 
-        $res = $this->historyService->updateEntryHistory( $data );
+        $res = $this->historyService->updateEntryHistory( $data['data'], $data['site'] );
 
         if ( $res ) {
             return $this->returnSuccess( 'Entry history updated successfully.' );

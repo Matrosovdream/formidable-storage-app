@@ -23,9 +23,8 @@ class FrmFieldsActions extends ActionsRestAbstract
 
         // Get bearer token from request headers
         $data = $this->prepareRequestData( $request );
-        return $data;
 
-        $res = $this->fieldService->updateFieldsAll( $data );
+        $res = $this->fieldService->updateFieldsAll( $data['data'], $data['site'] );
 
         if ( $res ) {
             return $this->returnSuccess( 'Formidable fields updated successfully.' );

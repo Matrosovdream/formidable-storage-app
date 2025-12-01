@@ -12,10 +12,10 @@ class FrmFieldService {
         $this->fieldRepo = new FrmFieldRepo();
     }
 
-    public function updateFieldsAll( $request ) {
+    public function updateFieldsAll( array $data, array $site ): bool{
         
-        $site_id = $request['site_id'] ?? null;
-        $fields = $request['fields'] ?? [];
+        $site_id = $site['id'];
+        $fields = $data['fields'] ?? [];
 
         foreach ( $fields as $fieldData ) {
             $field_id = $fieldData['field_id'] ?? null;

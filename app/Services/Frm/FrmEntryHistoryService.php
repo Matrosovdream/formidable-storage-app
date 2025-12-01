@@ -14,9 +14,9 @@ class FrmEntryHistoryService {
         $this->historyRepo = new FrmEntryHistoryRepo();
     }
 
-    public function updateEntryHistory(array $data): bool
+    public function updateEntryHistory(array $data, array $site): bool
     {
-        $site_id  = $data['site_id'];
+        $site_id  = $site['id'];
         $entry_id = $data['entry_id'];
     
         $entries = [];
