@@ -48,7 +48,17 @@ class FrmEntryHistoryService {
         try {
     
             foreach ($entries as $entryData) {
-                $this->historyRepo->create($entryData);
+                $this->historyRepo->model->updateOrCreate(
+                    [
+                        'entry_id' => $entryData['entry_id'],
+                        'field_id' => $entryData['field_id'],
+                        'update_type_id' => $entryData['update_type_id'],
+                    ],
+                    [
+                        'site_id' => $entryData['site_id'],
+                        'value' => $entryData['value'],
+                    ]
+                );
             }
     
             DB::commit();
