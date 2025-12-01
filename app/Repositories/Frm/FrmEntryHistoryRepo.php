@@ -8,7 +8,7 @@ use App\Models\Frm\FrmEntryHistory;
 class FrmEntryHistoryRepo extends AbstractRepo
 {
 
-    protected $model;
+    public $model;
 
     protected $fields = [];
 
