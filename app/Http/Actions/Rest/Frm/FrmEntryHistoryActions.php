@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Actions\Rest;
+namespace App\Http\Actions\Rest\Frm;
 
+use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmEntryHistoryService;
 
-class FrmEntryHistoryActions
+class FrmEntryHistoryActions extends ActionsRestAbstract
 {
 
     protected $historyService;
@@ -20,15 +21,9 @@ class FrmEntryHistoryActions
         $res = $this->historyService->updateEntryHistory( $request );
 
         if ( $res ) {
-            return [
-                'success' => true,
-                'message' => 'Entry history updated successfully.',
-            ];
+            return $this->returnSuccess( 'Entry history updated successfully.' );
         } else {
-            return [
-                'success' => false,
-                'message' => 'Failed to update entry history.',
-            ];
+            return $this->returnError( 'Failed to update entry history.' );
         }
     }
 

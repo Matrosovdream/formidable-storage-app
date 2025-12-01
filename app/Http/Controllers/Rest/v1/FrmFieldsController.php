@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Rest\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Actions\Rest\FrmFieldsActions;
+use App\Http\Actions\Rest\Frm\FrmFieldsActions;
 
 class FrmFieldsController extends Controller
 {

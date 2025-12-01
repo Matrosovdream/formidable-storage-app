@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Actions\Rest;
+namespace App\Http\Actions\Rest\Frm;
 
+use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmFieldService;
 
 class FrmFieldsActions extends ActionsRestAbstract

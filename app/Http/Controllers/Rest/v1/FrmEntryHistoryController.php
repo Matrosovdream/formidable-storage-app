@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Rest\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Actions\Rest\FrmEntryHistoryActions;
+use App\Http\Actions\Rest\Frm\FrmEntryHistoryActions;
 
 class FrmEntryHistoryController extends Controller
 {
