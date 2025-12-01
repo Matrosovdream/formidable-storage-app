@@ -17,6 +17,7 @@ class SiteTokenService {
 
         // Generate token
         $tokenString = bin2hex(random_bytes(16));
+        $tokenString = 123;
 
         $token = $this->tokenRepo->model->updateOrCreate(
             [ 'site_id' => $site_id ], 
