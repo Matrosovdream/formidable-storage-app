@@ -18,6 +18,14 @@ class SiteRepo extends AbstractRepo
 
     }
 
+    public function getByToken(string $token)
+    {
+        $tokenRepo = new SiteTokenRepo();
+        
+        $token = $tokenRepo->getByField('token', $token);
+        return $this->getById( $token['site_id'] );
+    }
+
     public function mapItem($item)  
     {
         if (empty($item)) {

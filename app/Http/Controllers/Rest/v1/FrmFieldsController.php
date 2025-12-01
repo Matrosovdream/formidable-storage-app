@@ -17,7 +17,7 @@ class FrmFieldsController extends Controller
 
     public function updateAll( Request $request )
     {
-        return $this->actions->updateAll( $request->all() );
+        return $this->actions->updateAll( $request );
     }
 
 }

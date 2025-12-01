@@ -19,6 +19,11 @@ class SiteService {
         return $this->siteRepo->getByid($site_id);
     }
 
+    public function getSiteByToken( string $token )
+    {
+        return $this->siteRepo->getByToken($token);
+    }
+
     public function createSite(array $data)
     {
 

@@ -17,19 +17,7 @@ class FrmEntryHistoryController extends Controller
 
     public function update( Request $request )
     {
-
-        /*
-        $validated = $request->validate([
-            'entry_id' => 'required|integer',
-            'site_id' => 'required|integer',
-            'field_id' => 'required|integer',
-            'update_type_id' => 'required|integer',
-            'value' => 'nullable|string',
-        ]);
-        */
-        $validated = $request->all();
-
-        return $this->actions->update( $validated );
+        return $this->actions->update( $request );
     }
 
 }

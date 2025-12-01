@@ -12,16 +12,18 @@ class FrmFieldsActions extends ActionsRestAbstract
 
     public function __construct()
     {
+
+        parent::__construct();
+
         $this->fieldService = new FrmFieldService();
     }
 
     public function updateAll( $request )
     {
 
-        $data = [
-            'site_id' => 1,
-            'fields'  => $request['fields'] ?? [],
-        ];
+        // Get bearer token from request headers
+        $data = $this->prepareRequestData( $request );
+        return $data;
 
         $res = $this->fieldService->updateFieldsAll( $data );
 

@@ -12,13 +12,20 @@ class FrmEntryHistoryActions extends ActionsRestAbstract
 
     public function __construct()
     {
+
+        parent::__construct();
+
         $this->historyService = new FrmEntryHistoryService();
     }
 
     public function update( $request )
     {
 
-        $res = $this->historyService->updateEntryHistory( $request );
+        // Get bearer token from request headers
+        $data = $this->prepareRequestData( $request );
+        return $data;
+
+        $res = $this->historyService->updateEntryHistory( $data );
 
         if ( $res ) {
             return $this->returnSuccess( 'Entry history updated successfully.' );
