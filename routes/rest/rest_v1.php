@@ -17,8 +17,8 @@ Route::prefix('rest')
                 Route::prefix('history')->group(function () {
 
                     Route::post('/update', [FrmEntryHistoryController::class, 'update']);
-                    //Route::get('/list', [FrmEntryHistoryController::class, 'list']);
-                    //Route::get('/view/{id}', [FrmEntryHistoryController::class, 'view']);
+                    //Route::post('/list', [FrmEntryHistoryController::class, 'list']);
+                    Route::post('/view/{id}', [FrmEntryHistoryController::class, 'getEntryHistory']);
 
                 });
 
