@@ -6,13 +6,14 @@ import "../css/app.css";
 import "../css/admin/style.bundle.css";
 
 // Axios base config
-axios.defaults.baseURL = 'http://localhost'; // adjust if needed
 axios.defaults.withCredentials = true;
 
-const app = createApp(App);
+axios.defaults.baseURL =
+    import.meta.env.VITE_API_URL   // API URL from env
+    ?? window.location.origin;     // fallback to same-origin
 
+const app = createApp(App);
 app.config.globalProperties.$axios = axios;
 
 app.use(router);
-
 app.mount('#app');
