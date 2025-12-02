@@ -14,6 +14,24 @@ class FrmEntryHistoryService {
         $this->historyRepo = new FrmEntryHistoryRepo();
     }
 
+    public function getEntryHistory(int $entry_id, array $site)
+    {
+        
+        // Get by entry_id and site_id
+        $site_id = $site['id'];
+        $history = $this->historyRepo->model
+            ->where('entry_id', $entry_id)
+            ->where('site_id', $site_id)
+            ->get();
+
+        if ($history->isEmpty()) {
+            return [];
+        } else {
+            return $history->toArray();
+        }
+
+    }
+
     public function updateEntryHistory(array $data, array $site): bool
     {
         $site_id  = $site['id'];

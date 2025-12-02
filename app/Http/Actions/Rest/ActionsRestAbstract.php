@@ -45,4 +45,13 @@ abstract class ActionsRestAbstract {
         ];
     }
 
+    public function returnData( $data, $message = '', $extra = [] ) {
+        return [
+            'success' => true,
+            'message' => $message,
+            'data'    => $data,
+            'extra'   => $extra,
+        ];
+    }
+
 }

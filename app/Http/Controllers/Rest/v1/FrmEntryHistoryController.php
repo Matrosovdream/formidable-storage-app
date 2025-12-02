@@ -20,4 +20,14 @@ class FrmEntryHistoryController extends Controller
         return $this->actions->update( $request );
     }
 
+    public function list( Request $request )
+    {
+        return $this->actions->list( $request );
+    }
+
+    public function getEntryHistory( $id, Request $request )
+    {
+        return $this->actions->getEntryHistory( $id, $request );
+    }
+
 }
