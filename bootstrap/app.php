@@ -18,5 +18,16 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        
+        // Handle 404 for REST API routes
+        $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+
+            if ($request->is('api/rest/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Endpoint not found',
+                ], 404);
+            }
+        });
+
     })->create();
