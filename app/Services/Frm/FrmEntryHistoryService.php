@@ -5,17 +5,22 @@ namespace App\Services\Frm;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use App\Repositories\Frm\FrmEntryHistoryRepo;
+use App\Repositories\Frm\FrmEntryUpdateTypeRepo;
 
 class FrmEntryHistoryService {
 
     protected $historyRepo;
+    protected $updateTypeRepo;
 
     public function __construct() {
         $this->historyRepo = new FrmEntryHistoryRepo();
+        $this->updateTypeRepo = new FrmEntryUpdateTypeRepo();
     }
 
     public function getEntryHistory(int $entry_id, array $site)
     {
+
+        $types = $this->getUpdateTypes();
         
         // Get by entry_id and site_id
         $site_id = $site['id'];
@@ -27,9 +32,28 @@ class FrmEntryHistoryService {
         if ($history->isEmpty()) {
             return [];
         } else {
-            return $history->toArray();
+
+            $itemsRaw = $history->toArray();
+            $items = [];
+            foreach ( $itemsRaw as $item ) {
+                $item['update_type'] = $types[ $item['update_type_id'] ] ?? 'unknown';
+                unset( $item['update_type_id'] );
+                $items[] = $item;
+            }
+
+            return $items;
         }
 
+    }
+
+    public function getUpdateTypes(): array
+    {
+        $typesRaw = $this->updateTypeRepo->getAll();
+        foreach ( $typesRaw['items'] as $type ) {
+            $types[ $type['id'] ] = $type['code'];
+        }
+
+        return $types;
     }
 
     public function updateEntryHistory(array $data, array $site): bool
