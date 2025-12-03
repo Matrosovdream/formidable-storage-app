@@ -31,6 +31,7 @@ class FrmEntryHistoryRepo extends AbstractRepo
             'field_id' => $item->field_id,
             'update_type_id' => $item->update_type_id,
             'value' => $item->value,
+            'change_date' => $item->change_date,
             'Model' => $item
         ];
         return $res;
