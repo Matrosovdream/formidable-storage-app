@@ -13,7 +13,8 @@ class FrmEntryHistory extends Model
         'site_id',
         'field_id',
         'update_type_id',
-        'value'
+        'value',
+        'change_date',
     ];
 
     protected $table = 'frm_entry_history';
