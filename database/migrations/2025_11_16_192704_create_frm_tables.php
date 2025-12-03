@@ -38,6 +38,7 @@ return new class extends Migration
             $table->foreignId('field_id')->on('frm_fields');
             $table->foreignId('update_type_id')->constrained('frm_entry_update_types')->nullable();
             $table->text('value')->nullable();
+            $table->dateTime('change_date')->nullable();
             $table->timestamps();
         });
 
