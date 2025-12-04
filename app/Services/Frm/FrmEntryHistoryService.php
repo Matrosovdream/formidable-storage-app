@@ -31,6 +31,7 @@ class FrmEntryHistoryService {
         $history = $this->historyRepo->model
             ->where('entry_id', $entry_id)
             ->where('site_id', $site_id)
+            ->orderBy('id', 'desc')
             ->get();
 
         if ($history->isEmpty()) {
@@ -95,27 +96,45 @@ class FrmEntryHistoryService {
         $entries = [];
     
         // Updated
-        foreach ($data['updated'] as $item) {
-            $entries[] = [
-                'entry_id'       => $entry_id,
-                'site_id'        => $site_id,
-                'field_id'       => $item['field_id'],
-                'update_type_id' => 2, // Updated
-                'value'          => $item['value'],
-                'change_date'    => $item['change_date'],
-            ];
+        if(
+            isset($data['updated']) ??
+            is_array($data['updated']) ??
+            !empty($data['updated'])
+        ) {
+
+            foreach ($data['updated'] as $item) {
+                $entries[] = [
+                    'entry_id'       => $entry_id,
+                    'site_id'        => $site_id,
+                    'field_id'       => $item['field_id'],
+                    'update_type_id' => 2, // Updated
+                    'old_value'          => $item['old_value'],
+                    'new_value'          => $item['new_value'],
+                    'change_date'    => $item['change_date'],
+                ];
+            }
+
         }
     
         // Created
-        foreach ($data['created'] as $item) {
-            $entries[] = [
-                'entry_id'       => $entry_id,
-                'site_id'        => $site_id,
-                'field_id'       => $item['field_id'],
-                'update_type_id' => 1, // Created
-                'value'          => $item['value'],
-                'change_date'    => $item['change_date']
-            ];
+        if( 
+            isset($data['created']) && 
+            is_array($data['created']) && 
+            !empty($data['created']) 
+            ) {
+             
+            foreach ($data['created'] as $item) {
+                $entries[] = [
+                    'entry_id'       => $entry_id,
+                    'site_id'        => $site_id,
+                    'field_id'       => $item['field_id'],
+                    'update_type_id' => 1, // Created
+                    'old_value'          => $item['old_value'],
+                    'new_value'          => $item['new_value'],
+                    'change_date'    => $item['change_date']
+                ];
+            }
+
         }
     
         DB::beginTransaction();
@@ -123,17 +142,8 @@ class FrmEntryHistoryService {
         try {
     
             foreach ($entries as $entryData) {
-                $this->historyRepo->model->updateOrCreate(
-                    [
-                        'entry_id' => $entryData['entry_id'],
-                        'field_id' => $entryData['field_id'],
-                        'update_type_id' => $entryData['update_type_id'],
-                    ],
-                    [
-                        'site_id' => $entryData['site_id'],
-                        'value' => $entryData['value'],
-                        'change_date' => $entryData['change_date']
-                    ]
+                $this->historyRepo->model->create(
+                    $entryData
                 );
             }
     
@@ -146,7 +156,7 @@ class FrmEntryHistoryService {
     
             // Optional: log or rethrow
             report($e);
-            // throw $e;
+            throw $e;
     
             return false;
         }

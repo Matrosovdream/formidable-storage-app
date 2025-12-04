@@ -13,7 +13,8 @@ class FrmEntryHistory extends Model
         'site_id',
         'field_id',
         'update_type_id',
-        'value',
+        'old_value',
+        'new_value',
         'change_date',
     ];
 

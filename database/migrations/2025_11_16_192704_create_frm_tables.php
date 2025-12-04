@@ -37,11 +37,11 @@ return new class extends Migration
             $table->foreignId('site_id')->on('sites');
             $table->foreignId('field_id')->on('frm_fields');
             $table->foreignId('update_type_id')->constrained('frm_entry_update_types')->nullable();
-            $table->text('value')->nullable();
+            $table->text('old_value')->nullable();
+            $table->text('new_value')->nullable();
             $table->dateTime('change_date')->nullable();
             $table->timestamps();
         });
-
 
     }
 
