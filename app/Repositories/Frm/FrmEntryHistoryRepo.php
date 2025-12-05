@@ -29,6 +29,7 @@ class FrmEntryHistoryRepo extends AbstractRepo
             'entry_id' => $item->entry_id,
             'site_id' => $item->site_id,
             'field_id' => $item->field_id,
+            'user_id' => $item->user_id,
             'update_type_id' => $item->update_type_id,
             'old_value' => $item->old_value,
             'new_value' => $item->new_value,

@@ -12,6 +12,7 @@ class FrmEntryHistory extends Model
         'entry_id',
         'site_id',
         'field_id',
+        'user_id',
         'update_type_id',
         'old_value',
         'new_value',

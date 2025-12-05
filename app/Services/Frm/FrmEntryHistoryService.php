@@ -92,6 +92,7 @@ class FrmEntryHistoryService {
     {
         $site_id  = $site['id'];
         $entry_id = $data['entry_id'];
+        $user_id  = $data['user_id'] ?? null;
     
         $entries = [];
     
@@ -107,6 +108,7 @@ class FrmEntryHistoryService {
                     'entry_id'       => $entry_id,
                     'site_id'        => $site_id,
                     'field_id'       => $item['field_id'],
+                    'user_id'        => $user_id ?? null,
                     'update_type_id' => 2, // Updated
                     'old_value'          => $item['old_value'],
                     'new_value'          => $item['new_value'],
@@ -128,6 +130,7 @@ class FrmEntryHistoryService {
                     'entry_id'       => $entry_id,
                     'site_id'        => $site_id,
                     'field_id'       => $item['field_id'],
+                    'user_id'        => $user_id ?? null,
                     'update_type_id' => 1, // Created
                     'old_value'          => $item['old_value'],
                     'new_value'          => $item['new_value'],
