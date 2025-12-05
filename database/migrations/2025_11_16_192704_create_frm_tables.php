@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('entry_id')->nullable();
             $table->foreignId('site_id')->on('sites');
             $table->foreignId('field_id')->on('frm_fields');
+            $table->integer('user_id')->nullable();
             $table->foreignId('update_type_id')->constrained('frm_entry_update_types')->nullable();
             $table->text('old_value')->nullable();
             $table->text('new_value')->nullable();
