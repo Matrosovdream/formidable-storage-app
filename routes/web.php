@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Api\SiteController;
 
 require_once __DIR__ . '/api.php';
 
@@ -21,6 +22,17 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
     Route::post('/register', [RegisteredUserController::class, 'store']);   
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
+
+    // Site routes
+    Route::group(['prefix' => 'sites'], function() {
+        
+        Route::get('/list', [SiteController::class, 'list'])->name('api-sites-list');
+        Route::get('/view/{site_id}', [SiteController::class, 'view'])->name('api-sites-view');
+        Route::get('/create', [SiteController::class, 'create'])->name('api-sites-create');
+        Route::post('/store', [SiteController::class, 'store'])->name('api-sites-store');
+        Route::delete('/delete/{site_id}', [SiteController::class, 'delete'])->name('api-sites-delete');
+
+    })->middleware('auth:sanctum');
 
 });
 
