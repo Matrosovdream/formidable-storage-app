@@ -171,7 +171,7 @@ abstract class AbstractRepo
     public function delete($id)
     {
         $item = $this->model->find($id);
-        $item->delete();
+        return $item->delete();
     }
 
     public function prepareItemsUpsert($items)
