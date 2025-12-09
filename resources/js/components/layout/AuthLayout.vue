@@ -31,7 +31,6 @@
     <style scoped>
     .auth-wrapper {
         /* adjust path to your real image location */
-        background-image: url('@/assets/media/auth/bg4.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
