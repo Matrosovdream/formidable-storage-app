@@ -11,11 +11,32 @@
     const loading = ref(false);
     const error = ref(null);
     const success = ref(null);
+    const urlError = ref(null); // JS URL validation error
+    
+    const isValidUrl = (value) => {
+        if (!value) return false;
+    
+        try {
+            const u = new URL(value);
+            // Require http or https
+            return u.protocol === 'http:' || u.protocol === 'https:';
+        } catch (e) {
+            return false;
+        }
+    };
     
     const submitForm = async () => {
         loading.value = true;
         error.value = null;
         success.value = null;
+        urlError.value = null;
+    
+        // JS URL validation
+        if (!isValidUrl(url.value)) {
+            loading.value = false;
+            urlError.value = 'Please enter a valid URL starting with http:// or https://';
+            return;
+        }
     
         try {
             await axios.post('/api/sites/store/', {
@@ -39,6 +60,13 @@
     const goBack = () => {
         router.push({ name: 'dashboard-sites' });
     };
+    
+    // Clear URL error when user edits field
+    const onUrlInput = () => {
+        if (urlError.value) {
+            urlError.value = null;
+        }
+    };
     </script>
     
     <template>
@@ -51,7 +79,6 @@
                 ← Back to sites
             </button>
     
-            <!-- Wrapper with 30% padding and centered content -->
             <div class="site-add-wrapper">
                 <h2 class="h5 mb-3 text-center">Add new site</h2>
     
@@ -78,7 +105,11 @@
                             class="form-control"
                             required
                             placeholder="https://example.com"
+                            @input="onUrlInput"
                         />
+                        <div v-if="urlError" class="text-danger fw-bold mt-1">
+                            {{ urlError }}
+                        </div>
                     </div>
     
                     <button
@@ -94,18 +125,32 @@
     </template>
     
     <style scoped>
-    .site-add-wrapper {
-        padding-left: 30%;
-        padding-right: 30%;
-        /* center content visually */
-    }
-    
-    /* Make it usable on small screens */
-    @media (max-width: 768px) {
         .site-add-wrapper {
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-left: 30%;
+            padding-right: 30%;
         }
-    }
-    </style>
+        
+        /* Mobile-friendly */
+        @media (max-width: 768px) {
+            .site-add-wrapper {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        
+        /* Always-green submit button */
+        .btn.btn-success {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+        }
+        
+        .btn.btn-success:hover,
+        .btn.btn-success:focus,
+        .btn.btn-success:active {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+            box-shadow: none !important;
+        }
+        </style>
+        
     

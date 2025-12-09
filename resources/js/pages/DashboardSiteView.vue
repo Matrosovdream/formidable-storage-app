@@ -22,7 +22,7 @@
     
       try {
         const { data } = await axios.get(`/api/sites/view/${props.site_id}`);
-        site.value = data;
+        site.value = data.data;
       } catch (e) {
         console.error('Failed to load site', e);
         error.value = 'Failed to load site data.';
