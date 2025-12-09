@@ -80,6 +80,7 @@ class SiteRepo extends AbstractRepo
 
         // Delete site
         return $this->delete( $site_id );
+
     }
 
     public function mapItem($item)  
