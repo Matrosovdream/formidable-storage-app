@@ -4,6 +4,7 @@ namespace App\Http\Actions\Rest\Frm;
 
 use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmFieldService;
+use App\Jobs\Frm\UpdateFrmFieldsJob;
 
 class FrmFieldsActions extends ActionsRestAbstract
 {
@@ -21,16 +22,15 @@ class FrmFieldsActions extends ActionsRestAbstract
     public function updateAll( $request )
     {
 
-        // Get bearer token from request headers
-        $data = $this->prepareRequestData( $request );
+        $data = $this->prepareRequestData($request);
 
-        $res = $this->fieldService->updateFieldsAll( $data['data'], $data['site'] );
+        // Dispatch job to queue
+        UpdateFrmFieldsJob::dispatch(
+            $data['data'],
+            $data['site']
+        );
 
-        if ( $res ) {
-            return $this->returnSuccess( 'Formidable fields updated successfully.' );
-        } else {
-            return $this->returnError( 'Failed to update Formidable fields.' );
-        }
+        return $this->returnSuccess('Formidable fields queued for update.');
     }
 
 }

@@ -4,6 +4,8 @@ namespace App\Http\Actions\Rest\Frm;
 
 use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmEntryHistoryService;
+use App\Jobs\Frm\UpdateFrmEntryHistoryJob;
+
 
 class FrmEntryHistoryActions extends ActionsRestAbstract
 {
@@ -24,13 +26,13 @@ class FrmEntryHistoryActions extends ActionsRestAbstract
         // Get bearer token from request headers
         $data = $this->prepareRequestData( $request );
 
-        $res = $this->historyService->updateEntryHistory( $data['data'], $data['site'] );
+        // Dispatch job to queue
+        UpdateFrmEntryHistoryJob::dispatch(
+            $data['data'],
+            $data['site']
+        );
 
-        if ( $res ) {
-            return $this->returnSuccess( 'Entry history updated successfully.' );
-        } else {
-            return $this->returnError( 'Failed to update entry history.' );
-        }
+        return $this->returnSuccess('Formidable entry history queued for update.');
     }
 
     public function getEntryHistory( $id, $request )
