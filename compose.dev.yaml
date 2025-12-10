@@ -95,8 +95,30 @@ services:
 
   redis:
     image: redis:alpine
+    ports:
+      - "6379:6379"
     networks:
       - laravel-development
+
+  queue-worker:
+    build:
+      context: .
+      dockerfile: ./docker/common/php-fpm/Dockerfile
+      target: development
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    depends_on:
+      - redis
+      - php-fpm
+    env_file:
+      - .env
+    volumes:
+      - ./:/var/www
+    command: php artisan queue:work --verbose --tries=3 --timeout=90
+    networks:
+      - laravel-development
+
 
 networks:
   laravel-development:
