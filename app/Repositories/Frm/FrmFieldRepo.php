@@ -18,6 +18,37 @@ class FrmFieldRepo extends AbstractRepo
 
     }
 
+    public function updateFieldsMultiple( array $data, array $site ): bool{
+        
+        $site_id = $site['id'];
+        $fields = $data['fields'] ?? [];
+
+        foreach ( $fields as $fieldData ) {
+            $field_id = $fieldData['field_id'] ?? null;
+            $type     = $fieldData['type'] ?? null;
+            $key      = $fieldData['field_key'] ?? null;
+            $label    = $fieldData['label'] ?? null;
+
+            if ( $site_id && $field_id ) {
+                
+                $this->model->updateOrCreate(
+                    [
+                        'site_id'  => $site_id,
+                        'field_id' => $field_id,
+                    ],
+                    [
+                        'key'    => $key,
+                        'type'   => $type,
+                        'label'  => $label
+                    ]
+                );
+            }
+        }
+
+        return true;
+
+    }
+
     public function mapItem($item)  
     {
         if (empty($item)) {
