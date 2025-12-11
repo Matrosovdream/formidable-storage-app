@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Rest\v1\FrmEntryHistoryController;
 use App\Http\Controllers\Rest\v1\FrmFieldsController;
+use App\Http\Controllers\Rest\v1\FrmEmailsLogController;
 
 Route::prefix('rest')
     ->middleware('rest.token')
@@ -28,6 +29,13 @@ Route::prefix('rest')
             Route::prefix('fields')->group(function() {
 
                 Route::post('/update-all', [FrmFieldsController::class, 'updateAll']);
+
+            });
+
+            // Frm emails log
+            Route::prefix('emailslog')->group(function() {
+                
+                Route::post('/update-all', [FrmEmailsLogController::class, 'updateAll']);
 
             });
 
