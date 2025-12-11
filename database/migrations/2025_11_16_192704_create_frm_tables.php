@@ -58,14 +58,16 @@ return new class extends Migration
             $table->text('error_text')->nullable();
             $table->longText('content_plain');
             $table->longText('content_html');
-            $table->tinyInteger('status')->unsigned()->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamp('date_sent')->nullable();
             $table->string('mailer')->nullable();
-            $table->tinyInteger('attachments')->unsigned()->default(0);
+            $table->tinyInteger('attachments')->default(0);
             $table->string('initiator_name')->nullable();
             $table->text('initiator_file')->nullable();
             $table->integer('original_log_id')->nullable();
             $table->timestamps();
+
+            $table->unique(['site_id', 'message_id'], 'frm_emails_log_unique');
         });
 
     }
