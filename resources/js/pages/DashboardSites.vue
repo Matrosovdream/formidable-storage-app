@@ -48,6 +48,17 @@
         router.push({ name: 'dashboard-site-add' });
     };
     
+    // Format stats safely
+    const formatStats = (site) => {
+        const frm = site?.stats?.frm || {};
+    
+        const fields = Number(frm.fields_count ?? 0);
+        const emails = Number(frm.emails_log_count ?? 0);
+        const history = Number(frm.entry_history_count ?? 0);
+    
+        return { fields, emails, history };
+    };
+    
     // Open delete popup
     const askDelete = (site) => {
         siteToDelete.value = site;
@@ -124,11 +135,39 @@
                         :key="site.id"
                         class="list-group-item d-flex justify-content-between align-items-center mb-2"
                     >
-                        <div>
+                        <!-- Column 1: Site -->
+                        <div class="me-3">
                             <div class="fw-semibold">{{ site.name }}</div>
                             <div class="text-muted small">{{ site.url }}</div>
                         </div>
     
+                        <!-- Column 2: Stats (NEW) -->
+                        <div class="text-muted small me-3 stats-col">
+                            <div class="d-flex gap-3 flex-wrap">
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatStats(site).fields }}
+                                    </div>
+                                    <div>Fields</div>
+                                </div>
+    
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatStats(site).emails }}
+                                    </div>
+                                    <div>Emails</div>
+                                </div>
+    
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatStats(site).history }}
+                                    </div>
+                                    <div>Entry updates</div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Column 3: Actions -->
                         <div class="d-flex gap-2">
                             <button
                                 type="button"
@@ -152,10 +191,7 @@
             </div>
     
             <!-- Delete confirmation popup -->
-            <div
-                v-if="showDeleteModal"
-                class="modal-backdrop-custom"
-            >
+            <div v-if="showDeleteModal" class="modal-backdrop-custom">
                 <div class="modal-dialog-custom card">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Are you sure?</h5>
@@ -206,6 +242,11 @@
     .modal-dialog-custom {
         max-width: 400px;
         width: 100%;
+    }
+    
+    /* Optional: keep stats width consistent */
+    .stats-col {
+        min-width: 220px;
     }
     </style>
     
