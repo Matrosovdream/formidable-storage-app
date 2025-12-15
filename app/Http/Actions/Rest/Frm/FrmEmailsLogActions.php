@@ -40,4 +40,18 @@ class FrmEmailsLogActions extends ActionsRestAbstract
         return $this->returnSuccess('Formidable fields queued for update.');
     }
 
+    public function list( $request )
+    {
+        $data = $this->prepareRequestData($request);
+
+        $res = $this->logService->getList(
+            $data['filters'] ?? []
+        );
+
+        return $this->returnSuccess(
+            'Formidable email logs retrieved successfully',
+            $res['items'] ?? []
+        );
+    }
+
 }

@@ -36,6 +36,7 @@ Route::prefix('rest')
             Route::prefix('emailslog')->group(function() {
                 
                 Route::post('/update-all', [FrmEmailsLogController::class, 'updateAll']);
+                Route::post('/list', [FrmEmailsLogController::class, 'list']);
 
             });
 

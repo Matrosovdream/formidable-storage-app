@@ -20,4 +20,9 @@ class FrmEmailsLogController extends Controller
         return $this->actions->updateAll( $request );
     }
 
+    public function list( Request $request )
+    {
+        return $this->actions->list( $request );
+    }
+
 }
