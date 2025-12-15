@@ -18,6 +18,29 @@ class FrmEntryHistoryRepo extends AbstractRepo
 
     }
 
+    public function updateLogsMultiple( array $data, array $site ) 
+    {
+        
+        $site_id = $site['id'];
+        $logs = $data['logs'] ?? [];
+
+        foreach ( $logs as $logData ) {
+            $entry_id       = $logData['entry_id'] ?? null;
+            $field_id       = $logData['field_id'] ?? null;
+            $user_id        = $logData['user_id'] ?? null;
+            $update_type_id = $logData['update_type_id'] ?? null;
+            $old_value      = $logData['old_value'] ?? null;
+            $new_value      = $logData['new_value'] ?? null;
+            $change_date    = $logData['change_date'] ?? null;
+
+            if ( $site_id && $entry_id && $field_id ) {
+                
+            }
+
+        }
+
+    }
+
     public function mapItem($item)  
     {
         if (empty($item)) {
