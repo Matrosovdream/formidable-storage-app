@@ -3,6 +3,9 @@ namespace App\Repositories\Site;
 
 use App\Repositories\AbstractRepo;
 use App\Models\Site\Site;
+use App\Models\Frm\FrmField;
+use App\Models\Frm\FrmEmailLog;
+use App\Models\Frm\FrmEntryHistory;
 
 
 class SiteRepo extends AbstractRepo
@@ -83,6 +86,20 @@ class SiteRepo extends AbstractRepo
 
     }
 
+    public function getSiteStats( int $site_id )
+    {
+        $stats = [];
+
+        // Frm stats
+        $stats['frm'] = [
+            'fields_count' => FrmField::where('site_id', $site_id)->count(),
+            'emails_log_count' => FrmEmailLog::where('site_id', $site_id)->count(),
+            'entry_history_count' => FrmEntryHistory::where('site_id', $site_id)->count(),
+        ];
+
+        return $stats;
+    }
+
     public function mapItem($item)  
     {
         if (empty($item)) {
@@ -94,6 +111,7 @@ class SiteRepo extends AbstractRepo
             'name' => $item->name,
             'url' => $item->url,
             'token' => $this->getSiteToken( $item->id ),
+            'stats' => $this->getSiteStats( $item->id ),
             'Model' => $item
         ];
         return $res;
