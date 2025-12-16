@@ -24,13 +24,6 @@ class FrmEmailsLogActions extends ActionsRestAbstract
 
         $data = $this->prepareRequestData($request);
 
-        /*
-        $res = $this->logService->updateDataMultiple(
-            $data['data'],
-            $data['site']
-        );
-        */
-
         // Dispatch job to queue
         UpdateEmailsLogJob::dispatch(
             $data['data'],
@@ -38,6 +31,19 @@ class FrmEmailsLogActions extends ActionsRestAbstract
         );
 
         return $this->returnSuccess('Formidable fields queued for update.');
+    }
+
+    public function updateAllRaw( $request )
+    {
+
+        $data = $this->prepareRequestData($request);
+
+        $res = $this->logService->updateDataMultiple(
+            $data['data'],
+            $data['site']
+        );
+
+        return $this->returnSuccess('Formidable fields queued for update.', $res);
     }
 
     public function list( $request )
