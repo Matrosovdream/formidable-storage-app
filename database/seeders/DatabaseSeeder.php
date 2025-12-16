@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
 
             // Site
-            SiteSeeder::class,
-            SiteTokenSeeder::class,
+            //SiteSeeder::class,
+            //SiteTokenSeeder::class,
 
             // Frm
             EntryUpdateTypeSeeder::class,
