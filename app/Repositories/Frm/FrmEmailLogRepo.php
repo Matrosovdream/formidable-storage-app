@@ -134,7 +134,7 @@ class FrmEmailLogRepo extends AbstractRepo
         }
 
         // Optionally add raw model
-        $res['Model'] = $item;
+        //$res['Model'] = $item;
 
         return $res;
     }

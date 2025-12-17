@@ -21,7 +21,7 @@ class FrmEmailLogService
 
     public function getList(array $filters = [])
     {
-        return $this->logRepo->getAll($filters);
+        return $this->logRepo->getAll($filters, 2, [], true);
     }
 
 }

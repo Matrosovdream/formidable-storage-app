@@ -59,7 +59,7 @@ abstract class AbstractRepo
         return $this;
     }
 
-    public function getAll($filter = [], $paginate = 20, array $sorting = [])
+    public function getAll($filter = [], $paginate = 20, array $sorting = [], $hideModel=false)
     {
 
         $query = $this->model->with($this->withRelations);
@@ -139,8 +139,8 @@ abstract class AbstractRepo
         $items = $query->paginate($paginate);
 
         return array_merge(
-            $this->mapItems($items),
-            ['Query' => [ 'sql' => $compiledSql ]]
+            $this->mapItems($items, $hideModel),
+            //['Query' => [ 'sql' => $compiledSql ]]
         );
     }
 
@@ -253,7 +253,7 @@ abstract class AbstractRepo
         );
     }
 
-    public function mapItems($items)
+    public function mapItems($items, $hideModel=false)
     {
 
         if (empty($items)) {
@@ -274,11 +274,17 @@ abstract class AbstractRepo
 
         }
 
-        return [
+        $res = [
             'items' => $itemsMapped,
-            //'links' => $items->links(),
+            //'pagination' => $itemsMapped['Model']['pagination'],
             'Model' => $items
         ];
+
+        if ($hideModel) {
+            unset($res['Model']);
+        }
+
+        return $res;
     }
 
     public function mapItem($item)

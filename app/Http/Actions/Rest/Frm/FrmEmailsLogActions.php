@@ -56,7 +56,7 @@ class FrmEmailsLogActions extends ActionsRestAbstract
 
         return $this->returnSuccess(
             'Formidable email logs retrieved successfully',
-            $res['items'] ?? []
+            $res ?? []
         );
     }
 
