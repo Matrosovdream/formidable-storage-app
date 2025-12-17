@@ -56,7 +56,7 @@ class FrmEmailLogRepo extends AbstractRepo
     {
 
         $site_id = $site['id'] ?? null;
-        $logs    = $data ?? [];
+        $logs    = $data['items'] ?? [];
 
         if (! $site_id || empty($logs)) {
             return 0;

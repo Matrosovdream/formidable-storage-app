@@ -30,7 +30,7 @@ class FrmEmailsLogActions extends ActionsRestAbstract
             $data['site']
         );
 
-        return $this->returnSuccess('Formidable fields queued for update.');
+        return $this->returnSuccess('Formidable email logs queued for update.');
     }
 
     public function updateAllRaw( $request )
