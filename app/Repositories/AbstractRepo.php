@@ -151,8 +151,19 @@ abstract class AbstractRepo
 
         $items = $query->paginate($paginate);
 
+        //return $items;
+
+        $pagination = [
+            'current_page' => $items->currentPage(),
+            'last_page'    => $items->lastPage(),
+            'per_page'     => $items->perPage(),
+            'total_items'        => $items->total(),
+            'total_pages'        => ceil($items->total() / $items->perPage()),
+        ];
+
         return array_merge(
             $this->mapItems($items, $hideModel),
+            ['pagination' => $pagination],
             ['Query' => [ 'sql' => $compiledSql ]]
         );
     }
