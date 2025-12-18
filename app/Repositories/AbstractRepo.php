@@ -161,11 +161,18 @@ abstract class AbstractRepo
             'total_pages'        => ceil($items->total() / $items->perPage()),
         ];
 
-        return array_merge(
+        $res = array_merge(
             $this->mapItems($items, $hideModel),
-            ['pagination' => $pagination],
-            ['Query' => [ 'sql' => $compiledSql ]]
+            ['pagination' => $pagination]
         );
+
+        // If APP_DEBUG from .env is true, include SQL query
+        if ( env('APP_DEBUG') == true ) {
+            $res['Query'] = [ 'sql' => $compiledSql ];
+        }
+
+        return $res;
+
     }
 
     public function prepareFilterParams(array $filters)
