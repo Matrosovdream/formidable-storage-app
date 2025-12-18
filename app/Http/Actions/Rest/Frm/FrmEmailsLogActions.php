@@ -51,7 +51,9 @@ class FrmEmailsLogActions extends ActionsRestAbstract
         $data = $this->prepareRequestData($request);
 
         $res = $this->logService->getList(
-            $data['filters'] ?? []
+            $data['data']['filters'] ?? [],
+            $data['data']['sorting'] ?? [],
+            $data['data']['paginate'] ?? 25,
         );
 
         return $this->returnSuccess(
