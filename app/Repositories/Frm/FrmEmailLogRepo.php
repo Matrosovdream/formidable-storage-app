@@ -38,9 +38,68 @@ class FrmEmailLogRepo extends AbstractRepo
         'original_log_id',
     ];
 
+    protected $filterableFields = [
+        'entry_id',
+        'subject',
+        'site_id',
+        'form_id',
+        'message_id',
+        'email_from',
+        'email_to',
+        'status',
+        'date_sent',
+        'mailer',
+        'date_from',
+        'date_to',
+        'date_sent'
+    ];
+
     public function __construct()
     {
         $this->model = new FrmEmailLog();
+    }
+
+    public function prepareFilterParams(array $filters)
+    {
+        $items = parent::prepareFilterParams($filters);
+
+        // Containable filters
+        $containableFields = [
+            'subject',
+            'email_from',
+            'email_to',
+        ];
+        foreach ($containableFields as $field) {
+            if (isset($filters[$field])) {
+                $items[$field] = '%' . $filters[$field] . '%';
+            }
+        }
+
+        // date_from and date_to filters
+        if (isset($filters['date_from']) && isset($filters['date_to'])) {
+            $items['date_sent'] = [
+                "CONDITION" => 'BETWEEN',
+                "VALUE"     => [
+                    $filters['date_from'] . ' 00:00:00',
+                    $filters['date_to'] . ' 23:59:59',
+                ],
+            ];
+            unset($items['date_from'], $items['date_to']);
+        } elseif (isset($filters['date_from'])) {
+            $items['date_sent'] = [
+                "CONDITION" => '>=',
+                "VALUE"     => $filters['date_from'] . ' 00:00:00',
+            ];
+            unset($items['date_from']);
+        } elseif (isset($filters['date_to'])) {
+            $items['date_sent'] = [
+                "CONDITION" => '<=',
+                "VALUE"     => $filters['date_to'] . ' 23:59:59',
+            ];
+            unset($items['date_to']);
+        }
+
+        return $items;
     }
 
     /**
