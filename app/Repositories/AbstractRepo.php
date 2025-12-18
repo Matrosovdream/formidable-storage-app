@@ -10,6 +10,7 @@ abstract class AbstractRepo
 
     protected $model;
     protected $fields = [];
+    protected $filterableFields = [];
     protected $withRelations = [];
 
     public function getByID($id)
@@ -64,6 +65,8 @@ abstract class AbstractRepo
 
         $query = $this->model->with($this->withRelations);
 
+        $filter = $this->prepareFilterParams($filter);
+
         foreach ($filter as $rawKey => $value) {
             preg_match('/^([a-zA-Z0-9_]+)([><!=]{1,2})?$/', $rawKey, $matches);
             $key = $matches[1] ?? $rawKey;
@@ -76,9 +79,9 @@ abstract class AbstractRepo
 
                 switch ($condition) {
                     case 'BETWEEN':
-                        if (count($filtered) === 2) {
+                        //if (count($filtered) === 2) {
                             $query->whereBetween($key, array_values($filtered));
-                        }
+                        //}
                         break;
 
                     case 'IN':
@@ -96,6 +99,16 @@ abstract class AbstractRepo
                     case 'NOT NULL':
                         $query->whereNotNull($key);
                         break;
+
+                    case '>':
+                    case '>=':
+                    case '<':
+                    case '<=':
+                    case '=':
+                    case '!=':
+                        $val = $filtered['VALUE'] ?? null;
+                        $query->where($key, $condition, $val);
+                        break;    
 
                     default:
                         break; // skip unsupported
@@ -140,10 +153,23 @@ abstract class AbstractRepo
 
         return array_merge(
             $this->mapItems($items, $hideModel),
-            //['Query' => [ 'sql' => $compiledSql ]]
+            ['Query' => [ 'sql' => $compiledSql ]]
         );
     }
 
+    public function prepareFilterParams(array $filters)
+    { 
+        // Exclude any filters that are not in the filterableFields list
+        $prepared = [];
+        foreach ($filters as $key => $value) {
+            if ( in_array($key, $this->filterableFields) ) {
+                $prepared[$key] = $value;   
+            }
+        }
+
+        return $prepared;
+
+    }
 
     public function create($data)
     {
