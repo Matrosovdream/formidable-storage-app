@@ -19,9 +19,9 @@ class FrmEmailLogService
         return $this->logRepo->updateLogsMultiple($data, $site);
     }
 
-    public function getList(array $filters = [])
-    {
-        return $this->logRepo->getAll($filters, 2, [], true);
+    public function getList(array $filters = [], array $sorting = [], $paginate = 25)
+    { 
+        return $this->logRepo->getAll($filters, $paginate, $sorting, true);
     }
 
 }
