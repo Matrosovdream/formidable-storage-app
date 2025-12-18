@@ -159,6 +159,14 @@ abstract class AbstractRepo
 
     public function prepareFilterParams(array $filters)
     { 
+
+        // Exclude empty filters
+        foreach ($filters as $key => $value) {
+            if ( is_null($value) || $value === '' ) {
+                unset($filters[$key]);
+            }
+        }
+
         // Exclude any filters that are not in the filterableFields list
         $prepared = [];
         foreach ($filters as $key => $value) {
