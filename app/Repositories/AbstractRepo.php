@@ -60,7 +60,7 @@ abstract class AbstractRepo
         return $this;
     }
 
-    public function getAll($filter = [], $paginate = 20, array $sorting = [], $hideModel=false)
+    public function getAll($filter = [], $paginate = 20, $pageNum=1, array $sorting = [], $hideModel=false)
     {
 
         $query = $this->model->with($this->withRelations);
@@ -149,7 +149,7 @@ abstract class AbstractRepo
         $bindings = $query->getBindings();
         $compiledSql = vsprintf(str_replace('?', "'%s'", $sql), $bindings);
 
-        $items = $query->paginate($paginate);
+        $items = $query->paginate($paginate, ['*'], 'page', $pageNum);
 
         //return $items;
 
