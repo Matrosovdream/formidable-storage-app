@@ -54,6 +54,7 @@ class FrmEmailsLogActions extends ActionsRestAbstract
             $data['data']['filters'] ?? [],
             $data['data']['sorting'] ?? [],
             $data['data']['paginate'] ?? 25,
+            $data['data']['page_num'] ?? 1,
         );
 
         return $this->returnSuccess(
