@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Rest\v1\FrmEntryHistoryController;
 use App\Http\Controllers\Rest\v1\FrmFieldsController;
 use App\Http\Controllers\Rest\v1\FrmEmailsLogController;
+use App\Http\Controllers\Rest\v1\FrmEpShipmentHistoryController;
 
 Route::prefix('rest')
     ->middleware('rest.token')
