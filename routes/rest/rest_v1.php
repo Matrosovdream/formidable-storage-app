@@ -41,6 +41,14 @@ Route::prefix('rest')
 
             });
 
+            // Frm EasyPost shipment history
+            Route::prefix('ep-shipment-history')->group(function() {
+                
+                Route::post('/update-all', [FrmEpShipmentHistoryController::class, 'updateAll']);
+                Route::post('/list', [FrmEpShipmentHistoryController::class, 'list']);
+
+            });
+
             Route::get('/status', function () {
                 return response()->json([
                     'status' => 'OK',
