@@ -51,12 +51,18 @@
     // Format stats safely
     const formatStats = (site) => {
         const frm = site?.stats?.frm || {};
-    
-        const fields = Number(frm.fields_count ?? 0);
-        const emails = Number(frm.emails_log_count ?? 0);
-        const history = Number(frm.entry_history_count ?? 0);
-    
-        return { fields, emails, history };
+
+        return {
+            fields: formatNumber(Number(frm.fields_count ?? 0)),
+            emails: formatNumber(Number(frm.emails_log_count ?? 0)),
+            history: formatNumber(Number(frm.entry_history_count ?? 0)),
+        };
+    };
+
+    const formatNumber = (value) => {
+        return new Intl.NumberFormat('de-DE').format(value);
+        // de-DE → 1.200.300
+        // en-US → 1,200,300
     };
     
     // Open delete popup
