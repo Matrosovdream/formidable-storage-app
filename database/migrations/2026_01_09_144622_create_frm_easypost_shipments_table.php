@@ -49,7 +49,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Helpful indexes (optional but recommended)
-            $table->index(['easypost_shipment_id'], 'idx_ep_addr_shipment');
+            $table->index('easypost_shipment_id');
             $table->index(['entry_id'], 'idx_ep_addr_entry');
             $table->index(['easypost_id'], 'idx_ep_addr_epid');
         });
@@ -57,7 +57,7 @@ return new class extends Migration
         /**
          * wp_frm_easypost_shipment_label
          */
-        Schema::create('frm_easypost_shipment_label', function (Blueprint $table) {
+        Schema::create('frm_easypost_shipment_labels', function (Blueprint $table) {
             $table->id();
             $table->string('easypost_id');
             $table->string('easypost_shipment_id');
@@ -76,7 +76,7 @@ return new class extends Migration
             $table->text('label_epl2_url')->nullable();
             $table->timestamps();
 
-            $table->index(['easypost_shipment_id'], 'idx_ep_label_shipment');
+            $table->index('easypost_shipment_id');
             $table->index(['entry_id'], 'idx_ep_label_entry');
             $table->index(['easypost_id'], 'idx_ep_label_epid');
         });
@@ -84,7 +84,7 @@ return new class extends Migration
         /**
          * wp_frm_easypost_shipment_parcel
          */
-        Schema::create('frm_easypost_shipment_parcel', function (Blueprint $table) {
+        Schema::create('frm_easypost_shipment_parcels', function (Blueprint $table) {
             $table->id(); 
             $table->string('easypost_id');
             $table->string('easypost_shipment_id');
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->decimal('weight', 10, 2)->nullable();
             $table->timestamps();
 
-            $table->index(['easypost_shipment_id'], 'idx_ep_parcel_shipment');
+            $table->index('easypost_shipment_id');
             $table->index(['entry_id'], 'idx_ep_parcel_entry');
             $table->index(['easypost_id'], 'idx_ep_parcel_epid');
         });
@@ -104,7 +104,7 @@ return new class extends Migration
         /**
          * wp_frm_easypost_shipment_rate
          */
-        Schema::create('frm_easypost_shipment_rate', function (Blueprint $table) {
+        Schema::create('frm_easypost_shipment_rates', function (Blueprint $table) {
             $table->id(); 
             $table->string('easypost_id');
             $table->string('easypost_shipment_id');
@@ -126,7 +126,7 @@ return new class extends Migration
             $table->integer('est_delivery_days')->nullable();
             $table->timestamps();
 
-            $table->index(['easypost_shipment_id'], 'idx_ep_rate_shipment');
+            $table->index('easypost_shipment_id');
             $table->index(['entry_id'], 'idx_ep_rate_entry');
             $table->index(['easypost_id'], 'idx_ep_rate_epid');
             $table->index(['carrier', 'service'], 'idx_ep_rate_carrier_service');
@@ -141,8 +141,8 @@ return new class extends Migration
     {
         Schema::dropIfExists('frm_easypost_shipments');
         Schema::dropIfExists('frm_easypost_shipment_addresses');
-        Schema::dropIfExists('frm_easypost_shipment_label');
-        Schema::dropIfExists('frm_easypost_shipment_parcel');
-        Schema::dropIfExists('frm_easypost_shipment_rate');
+        Schema::dropIfExists('frm_easypost_shipment_labels');
+        Schema::dropIfExists('frm_easypost_shipment_parcels');
+        Schema::dropIfExists('frm_easypost_shipment_rates');
     }
 };
