@@ -19,6 +19,10 @@ class FrmEpShipmentRepo extends AbstractRepo
 
     }
 
+    public function updateShipmentsMultiple( array $data, array $site ): bool {
+        return true;
+    }
+
     public function mapItem($item)  
     {
         if (empty($item)) {
