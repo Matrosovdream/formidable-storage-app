@@ -29,9 +29,10 @@ abstract class ActionsRestAbstract {
         return $request->bearerToken();
     }
 
-    public function returnSuccess( $message, $data = [] ) {
+    public function returnSuccess( $message, $data = [], bool $cache = false ) {
         return [
             'success' => true,
+            'cache'   => $cache,
             'message' => $message,
             'data'    => $data,
         ];
@@ -40,14 +41,16 @@ abstract class ActionsRestAbstract {
     public function returnError( $message, $data = [] ) {
         return [
             'success' => false,
+            'cache'   => false,
             'message' => $message,
             'data'    => $data,
         ];
     }
 
-    public function returnData( $data, $message = '', $extra = [] ) {
+    public function returnData( $data, $message = '', $extra = [], bool $cache = false ) {
         return [
             'success' => true,
+            'cache'   => $cache,
             'message' => $message,
             'data'    => $data,
             'extra'   => $extra,

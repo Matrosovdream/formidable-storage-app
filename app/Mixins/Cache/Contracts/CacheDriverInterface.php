@@ -12,6 +12,8 @@ interface CacheDriverInterface
 
     public function remember(string $key, ?int $ttl, Closure $callback): mixed;
 
+    public function rememberTracked(string $key, ?int $ttl, Closure $callback): array;
+
     public function forget(string $key): bool;
 
     public function has(string $key): bool;

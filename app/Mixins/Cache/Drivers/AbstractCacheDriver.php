@@ -11,14 +11,19 @@ abstract class AbstractCacheDriver implements CacheDriverInterface
 
     public function remember(string $key, ?int $ttl, Closure $callback): mixed
     {
+        return $this->rememberTracked($key, $ttl, $callback)['value'];
+    }
+
+    public function rememberTracked(string $key, ?int $ttl, Closure $callback): array
+    {
         if ($this->has($key)) {
-            return $this->get($key);
+            return ['value' => $this->get($key), 'hit' => true];
         }
 
         $value = $callback();
         $this->put($key, $value, $ttl ?? $this->defaultTtl);
 
-        return $value;
+        return ['value' => $value, 'hit' => false];
     }
 
     public function has(string $key): bool

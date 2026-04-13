@@ -43,13 +43,13 @@ class FrmEpShipmentHistoryActions extends ActionsRestAbstract
 
         $res = $this->historyService->getEntryHistory( $id, $data['site'] );
 
-        $data = [
+        $payload = [
             'site_id' => $data['site']['id'],
-            'items' => $res,
+            'items' => $res['value'],
         ];
 
-        if ( $res !== false ) {
-            return $this->returnData( $data, 'Entry history retrieved successfully.' );
+        if ( $res['value'] !== false ) {
+            return $this->returnData( $payload, 'Entry history retrieved successfully.', [], $res['hit'] );
         } else {
             return $this->returnError( 'Failed to retrieve entry history.' );
         }
@@ -63,8 +63,8 @@ class FrmEpShipmentHistoryActions extends ActionsRestAbstract
 
         $res = $this->historyService->getEntryHistory( $data['data'], $data['site'] );
 
-        if ( $res !== false ) {
-            return $this->returnData( $res, 'Entry history retrieved successfully.', $res['data'] );
+        if ( $res['value'] !== false ) {
+            return $this->returnData( $res['value'], 'Entry history retrieved successfully.', [], $res['hit'] );
         } else {
             return $this->returnError( 'Failed to retrieve entry history.' );
         }

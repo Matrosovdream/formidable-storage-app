@@ -39,6 +39,11 @@ class CacheService
         return $this->driver->remember($key, $ttl ?? $this->defaultTtl, $callback);
     }
 
+    public function rememberTracked(string $key, ?int $ttl, Closure $callback): array
+    {
+        return $this->driver->rememberTracked($key, $ttl ?? $this->defaultTtl, $callback);
+    }
+
     public function forget(string $key): bool
     {
         return $this->driver->forget($key);
@@ -47,6 +52,11 @@ class CacheService
     public function rememberEntryMeta(int $siteId, int $entryId, Closure $callback): mixed
     {
         return $this->remember($this->keys->entryMeta($siteId, $entryId), null, $callback);
+    }
+
+    public function rememberEntryMetaTracked(int $siteId, int $entryId, Closure $callback): array
+    {
+        return $this->rememberTracked($this->keys->entryMeta($siteId, $entryId), null, $callback);
     }
 
     public function forgetEntryMeta(int $siteId, int $entryId): bool

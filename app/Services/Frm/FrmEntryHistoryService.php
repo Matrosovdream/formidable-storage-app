@@ -27,7 +27,7 @@ class FrmEntryHistoryService {
     {
         $site_id = $site['id'];
 
-        return $this->cache->rememberEntryMeta($site_id, $entry_id, function () use ($entry_id, $site, $site_id) {
+        return $this->cache->rememberEntryMetaTracked($site_id, $entry_id, function () use ($entry_id, $site, $site_id) {
 
             $types = $this->getUpdateTypes();
             $fieldsMap = $this->getFieldsMap($site);
