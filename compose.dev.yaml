@@ -8,7 +8,7 @@ services:
       - ./docker/development/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       # Map port 80 inside the container to the port specified by 'NGINX_PORT' on the host machine
-      - "80:80"
+      - "70:80"
     environment:
       - NGINX_HOST=localhost
     networks:
@@ -44,6 +44,8 @@ services:
     depends_on:
       postgres:
         condition: service_started  # Wait for postgres to start
+      redis:
+        condition: service_healthy  # Wait for redis health check
 
   workspace:
    # For the workspace service, we will also create a custom image to install and setup all the necessary stuff.
@@ -60,7 +62,7 @@ services:
         XDEBUG_LOG: /dev/stdout
         XDEBUG_LOG_LEVEL: 0
     ports:
-      - '${VITE_PORT:-5173}:5173'
+      - '${VITE_PORT:-7173}:5173'
     tty: true  # Enables an interactive terminal
     stdin_open: true  # Keeps standard input open for 'docker exec'
     env_file:
@@ -73,7 +75,7 @@ services:
   postgres:
     image: postgres:16
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_HOST_PORT:-7432}:5432"
     environment:
       - POSTGRES_DB=app
       - POSTGRES_USER=laravel
@@ -86,7 +88,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - "8080:8080"
+      - "7080:8080"
     depends_on:
       - postgres
     networks:
@@ -95,10 +97,18 @@ services:
 
   redis:
     image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
     ports:
-      - "6379:6379"
+      - "${REDIS_HOST_PORT:-7379}:6379"
+    volumes:
+      - redis-data-development:/data
     networks:
       - laravel-development
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   queue-worker:
     build:
@@ -125,3 +135,4 @@ networks:
 
 volumes:
   postgres-data-development:
+  redis-data-development:

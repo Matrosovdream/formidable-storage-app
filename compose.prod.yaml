@@ -51,6 +51,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
 
   postgres:
     image: postgres:16
@@ -81,6 +83,9 @@ services:
   redis:
     image: redis:alpine
     restart: unless-stopped  # Automatically restart unless the service is explicitly stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data-production:/data
     networks:
       - laravel-production
     # Health check for Redis
@@ -104,5 +109,6 @@ networks:
 
 volumes:
   postgres-data-production:
+  redis-data-production:
   laravel-storage-production:
   laravel-public-assets:

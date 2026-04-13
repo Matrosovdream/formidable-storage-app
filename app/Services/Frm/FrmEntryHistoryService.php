@@ -7,54 +7,52 @@ use Throwable;
 use App\Repositories\Frm\FrmEntryHistoryRepo;
 use App\Repositories\Frm\FrmEntryUpdateTypeRepo;
 use App\Repositories\Frm\FrmFieldRepo;
+use App\Services\CacheService;
 
 class FrmEntryHistoryService {
 
     protected $historyRepo;
     protected $updateTypeRepo;
     protected $fieldRepo;
+    protected CacheService $cache;
 
-    public function __construct() {
+    public function __construct(?CacheService $cache = null) {
         $this->historyRepo = new FrmEntryHistoryRepo();
         $this->updateTypeRepo = new FrmEntryUpdateTypeRepo();
         $this->fieldRepo = new FrmFieldRepo();
+        $this->cache = $cache ?? app(CacheService::class);
     }
 
     public function getEntryHistory(int $entry_id, array $site)
     {
-
-        $types = $this->getUpdateTypes();
-        $fieldsMap = $this->getFieldsMap($site);
-
-        // Get by entry_id and site_id
         $site_id = $site['id'];
-        $history = $this->historyRepo->model
-            ->where('entry_id', $entry_id)
-            ->where('site_id', $site_id)
-            ->orderBy('id', 'desc')
-            ->get();
 
-        if ($history->isEmpty()) {
-            return [];
-        } else {
+        return $this->cache->rememberEntryMeta($site_id, $entry_id, function () use ($entry_id, $site, $site_id) {
+
+            $types = $this->getUpdateTypes();
+            $fieldsMap = $this->getFieldsMap($site);
+
+            $history = $this->historyRepo->model
+                ->where('entry_id', $entry_id)
+                ->where('site_id', $site_id)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            if ($history->isEmpty()) {
+                return [];
+            }
 
             $itemsRaw = $history->toArray();
             $items = [];
-            foreach ( $itemsRaw as $item ) {
-
-                // Update type
-                $item['update_type'] = $types[ $item['update_type_id'] ] ?? 'unknown';
-                unset( $item['update_type_id'] );
-
-                // Field info
-                $item['field'] = $fieldsMap[ $item['field_id'] ] ?? null;
-
+            foreach ($itemsRaw as $item) {
+                $item['update_type'] = $types[$item['update_type_id']] ?? 'unknown';
+                unset($item['update_type_id']);
+                $item['field'] = $fieldsMap[$item['field_id']] ?? null;
                 $items[] = $item;
             }
 
             return $items;
-        }
-
+        });
     }
 
     public function getFieldsMap(array $site): array
@@ -151,6 +149,10 @@ class FrmEntryHistoryService {
             }
     
             DB::commit();
+
+            // Invalidate cached meta for this entry; next read rebuilds.
+            $this->cache->forgetEntryMeta($site_id, $entry_id);
+
             return true;
     
         } catch (Throwable $e) {

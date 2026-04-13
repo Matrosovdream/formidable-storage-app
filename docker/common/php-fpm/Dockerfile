@@ -92,8 +92,12 @@ COPY --from=builder /usr/local/bin/docker-php-ext-* /usr/local/bin/
 # -----------------------------------------------------------
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# Enable PHP-FPM status page by modifying zz-docker.conf with sed
-RUN sed -i '/\[www\]/a pm.status_path = /status' /usr/local/etc/php-fpm.d/zz-docker.conf
+# Enable PHP-FPM status + ping endpoints via a dedicated pool override file.
+# (Previously a fragile `sed` injected `pm.status_path` into zz-docker.conf,
+# but the upstream php:8.4-fpm image's zz-docker.conf layout caused the
+# directive to be parsed outside the [www] pool, breaking FPM startup.)
+RUN printf '[www]\npm.status_path = /status\nping.path = /ping\n' \
+    > /usr/local/etc/php-fpm.d/zz-status.conf
 # Update the variables_order to include E (for ENV)
 #RUN sed -i 's/variables_order = "GPCS"/variables_order = "EGPCS"/' "$PHP_INI_DIR/php.ini"
 
