@@ -35,6 +35,15 @@
           >
               Sites
           </button>
+
+          <button
+              type="button"
+              class="nav-link text-start mb-1"
+              :class="{ active: isActive(['dashboard-data', 'dashboard-data-entry']) }"
+              @click="go('dashboard-data')"
+          >
+              Data
+          </button>
       </nav>
   </template>
   

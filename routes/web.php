@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Api\SiteController;
+use App\Http\Controllers\Api\DataController;
 
 require __DIR__ . '/api.php';
 
@@ -33,6 +34,15 @@ Route::group(['prefix' => 'api'], function() {
         Route::delete('/delete/{site_id}', [SiteController::class, 'delete'])->name('api-sites-delete');
 
     })->middleware('auth:sanctum');
+
+    // Data routes
+    Route::group(['prefix' => 'data', 'middleware' => 'auth:sanctum'], function() {
+
+        Route::get('/entries/{site_id}', [DataController::class, 'entries'])->name('api-data-entries');
+        Route::get('/entries/{site_id}/{entry_id}/updates', [DataController::class, 'entryUpdates'])->name('api-data-entry-updates');
+        Route::get('/entries/{site_id}/{entry_id}/emails', [DataController::class, 'entryEmails'])->name('api-data-entry-emails');
+
+    });
 
 });
 

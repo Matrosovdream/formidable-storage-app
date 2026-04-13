@@ -8,6 +8,8 @@ import DashboardSites from '../pages/DashboardSites.vue';
 import DashboardSiteView from '../pages/DashboardSiteView.vue';
 import DashboardSiteEdit from '../pages/DashboardSiteEdit.vue';
 import DashboardSiteAdd from '../pages/DashboardSiteAdd.vue';
+import DashboardData from '../pages/DashboardData.vue';
+import DashboardDataEntry from '../pages/DashboardDataEntry.vue';
 
 const routes = [
     {
@@ -53,6 +55,19 @@ const routes = [
         name: 'dashboard-site-add',
         component: DashboardSiteAdd,
         meta: { requiresAuth: true },
+    },
+    {
+        path: '/dashboard/data',
+        name: 'dashboard-data',
+        component: DashboardData,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/dashboard/data/:site_id/entry/:entry_id',
+        name: 'dashboard-data-entry',
+        component: DashboardDataEntry,
+        meta: { requiresAuth: true },
+        props: true,
     },
     {
         path: '/:pathMatch(.*)*',
