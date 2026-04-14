@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Models\Frm\FrmField;
 use App\Models\Frm\FrmEmailLog;
 use App\Models\Frm\FrmEntryHistory;
+use App\Services\QueueStatsService;
 
 
 class SiteRepo extends AbstractRepo
@@ -96,6 +97,8 @@ class SiteRepo extends AbstractRepo
             'emails_log_count' => FrmEmailLog::where('site_id', $site_id)->count(),
             'entry_history_count' => FrmEntryHistory::where('site_id', $site_id)->count(),
         ];
+
+        $stats['queue'] = QueueStatsService::countsForSite($site_id);
 
         return $stats;
     }

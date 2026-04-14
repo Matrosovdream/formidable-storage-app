@@ -59,6 +59,16 @@
         };
     };
 
+    const formatQueueStats = (site) => {
+        const q = site?.stats?.queue || {};
+
+        return {
+            fields: formatNumber(Number(q.queued_fields_count ?? 0)),
+            emails: formatNumber(Number(q.queued_emails_log_count ?? 0)),
+            history: formatNumber(Number(q.queued_entry_history_count ?? 0)),
+        };
+    };
+
     const formatNumber = (value) => {
         return new Intl.NumberFormat('de-DE').format(value);
         // de-DE → 1.200.300
@@ -167,6 +177,32 @@
                                 <div>
                                     <div class="fw-bold text-dark">
                                         {{ formatStats(site).history }}
+                                    </div>
+                                    <div>Entry updates</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-2" />
+
+                            <div class="text-uppercase small mb-1">In queue</div>
+                            <div class="d-flex gap-3 flex-wrap">
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatQueueStats(site).fields }}
+                                    </div>
+                                    <div>Fields</div>
+                                </div>
+
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatQueueStats(site).emails }}
+                                    </div>
+                                    <div>Emails</div>
+                                </div>
+
+                                <div>
+                                    <div class="fw-bold text-dark">
+                                        {{ formatQueueStats(site).history }}
                                     </div>
                                     <div>Entry updates</div>
                                 </div>

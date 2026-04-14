@@ -3,7 +3,9 @@
 namespace App\Jobs\Frm;
 
 use App\Services\Frm\FrmEntryHistoryService;
+use App\Services\QueueStatsService;
 use Illuminate\Bus\Queueable;
+use Throwable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,8 +32,16 @@ class UpdateFrmEntryHistoryJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $service = new FrmEntryHistoryService();
-        $service->updateEntryHistory($this->data, $this->site);
-        
+        try {
+            $service = new FrmEntryHistoryService();
+            $service->updateEntryHistory($this->data, $this->site);
+        } finally {
+            QueueStatsService::decrement((int) ($this->site['id'] ?? 0), QueueStatsService::TYPE_ENTRY_HISTORY);
+        }
+    }
+
+    public function failed(?Throwable $e = null): void
+    {
+        QueueStatsService::decrement((int) ($this->site['id'] ?? 0), QueueStatsService::TYPE_ENTRY_HISTORY);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Actions\Rest\Frm;
 
 use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmEmailLogService;
+use App\Services\QueueStatsService;
 use App\Jobs\Frm\UpdateEmailsLogJob;
 
 class FrmEmailsLogActions extends ActionsRestAbstract
@@ -23,6 +24,8 @@ class FrmEmailsLogActions extends ActionsRestAbstract
     {
 
         $data = $this->prepareRequestData($request);
+
+        QueueStatsService::increment((int) $data['site']['id'], QueueStatsService::TYPE_EMAILS);
 
         // Dispatch job to queue
         UpdateEmailsLogJob::dispatch(

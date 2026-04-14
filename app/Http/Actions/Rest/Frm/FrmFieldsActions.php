@@ -4,6 +4,7 @@ namespace App\Http\Actions\Rest\Frm;
 
 use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmFieldService;
+use App\Services\QueueStatsService;
 use App\Jobs\Frm\UpdateFrmFieldsJob;
 
 class FrmFieldsActions extends ActionsRestAbstract
@@ -23,6 +24,8 @@ class FrmFieldsActions extends ActionsRestAbstract
     {
 
         $data = $this->prepareRequestData($request);
+
+        QueueStatsService::increment((int) $data['site']['id'], QueueStatsService::TYPE_FIELDS);
 
         // Dispatch job to queue
         UpdateFrmFieldsJob::dispatch(

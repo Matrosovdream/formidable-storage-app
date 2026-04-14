@@ -4,6 +4,7 @@ namespace App\Http\Actions\Rest\Frm;
 
 use App\Http\Actions\Rest\ActionsRestAbstract;
 use App\Services\Frm\FrmEntryHistoryService;
+use App\Services\QueueStatsService;
 use App\Jobs\Frm\UpdateFrmEntryHistoryJob;
 
 
@@ -25,6 +26,8 @@ class FrmEntryHistoryActions extends ActionsRestAbstract
 
         // Get bearer token from request headers
         $data = $this->prepareRequestData( $request );
+
+        QueueStatsService::increment((int) $data['site']['id'], QueueStatsService::TYPE_ENTRY_HISTORY);
 
         // Dispatch job to queue
         UpdateFrmEntryHistoryJob::dispatch(
