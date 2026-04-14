@@ -48,7 +48,7 @@ it('upserts fields into DB via update-all', function () {
     ]);
 });
 
-it('updates an existing field on second call (upsert)', function () {
+it('appends a new row on each call for the same field_id (insert-only)', function () {
     $this->postJson('/api/rest/v1/fields/update-all', [
         'fields' => [[
             'field_id'  => 55,
@@ -70,12 +70,19 @@ it('updates an existing field on second call (upsert)', function () {
     $this->assertDatabaseHas('frm_fields', [
         'site_id'  => $this->restSite->id,
         'field_id' => 55,
+        'key'      => 'old_key',
+        'label'    => 'Old',
+    ]);
+    $this->assertDatabaseHas('frm_fields', [
+        'site_id'  => $this->restSite->id,
+        'field_id' => 55,
         'key'      => 'new_key',
         'label'    => 'New',
     ]);
-    $this->assertDatabaseMissing('frm_fields', [
-        'site_id'  => $this->restSite->id,
-        'field_id' => 55,
-        'key'      => 'old_key',
-    ]);
+
+    expect(
+        \App\Models\Frm\FrmField::where('site_id', $this->restSite->id)
+            ->where('field_id', 55)
+            ->count()
+    )->toBe(2);
 });
