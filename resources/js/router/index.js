@@ -9,6 +9,7 @@ import DashboardSiteView from '../pages/DashboardSiteView.vue';
 import DashboardSiteEdit from '../pages/DashboardSiteEdit.vue';
 import DashboardSiteAdd from '../pages/DashboardSiteAdd.vue';
 import DashboardData from '../pages/DashboardData.vue';
+import DashboardDataSite from '../pages/DashboardDataSite.vue';
 import DashboardDataEntry from '../pages/DashboardDataEntry.vue';
 
 const routes = [
@@ -61,6 +62,13 @@ const routes = [
         name: 'dashboard-data',
         component: DashboardData,
         meta: { requiresAuth: true },
+    },
+    {
+        path: '/dashboard/data/:site_id',
+        name: 'dashboard-data-site',
+        component: DashboardDataSite,
+        meta: { requiresAuth: true },
+        props: true,
     },
     {
         path: '/dashboard/data/:site_id/entry/:entry_id',

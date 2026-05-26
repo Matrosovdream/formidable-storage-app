@@ -27,4 +27,29 @@ class DataController extends Controller
     {
         return $this->actions->entryEmails($site_id, $entry_id);
     }
+
+    public function emails(Request $request, int $site_id)
+    {
+        return $this->actions->listEmails($request, $site_id);
+    }
+
+    public function siteEntryUpdates(Request $request, int $site_id)
+    {
+        return $this->actions->listEntryUpdates($request, $site_id);
+    }
+
+    public function generateEmails(Request $request, int $site_id)
+    {
+        return $this->actions->generateEmails($request, $site_id);
+    }
+
+    public function generateFields(Request $request, int $site_id)
+    {
+        return $this->actions->generateFields($request, $site_id);
+    }
+
+    public function generateEntryUpdates(Request $request, int $site_id)
+    {
+        return $this->actions->generateEntryUpdates($request, $site_id);
+    }
 }

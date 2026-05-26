@@ -6,8 +6,8 @@ Laravel application packaged with Docker Compose for both development and produc
 
 After installing and seeding, sign in with the default admin account:
 
-- **Email:** `matrosovdream@gmail.com`
-- **Password:** `123`
+- **Email:** `admin@admin.com`
+- **Password:** `123123`
 
 Defined in [database/seeders/User/UserSeeder.php](database/seeders/User/UserSeeder.php) — change immediately after first login (or edit the seeder before running it).
 

@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
 
     protected function getItems() {
         return [
-            ['name' => 'Admin User', 'email' => 'matrosovdream@gmail.com', 'password' => Hash::make('123')],
+            ['name' => 'Admin User', 'email' => 'admin@admin.com', 'password' => Hash::make('123123')],
         ];
     }
     

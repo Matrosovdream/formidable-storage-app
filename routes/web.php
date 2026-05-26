@@ -42,6 +42,13 @@ Route::group(['prefix' => 'api'], function() {
         Route::get('/entries/{site_id}/{entry_id}/updates', [DataController::class, 'entryUpdates'])->name('api-data-entry-updates');
         Route::get('/entries/{site_id}/{entry_id}/emails', [DataController::class, 'entryEmails'])->name('api-data-entry-emails');
 
+        Route::get('/emails/{site_id}', [DataController::class, 'emails'])->name('api-data-emails');
+        Route::get('/entry-updates/{site_id}', [DataController::class, 'siteEntryUpdates'])->name('api-data-site-entry-updates');
+
+        Route::post('/generate/{site_id}/emails', [DataController::class, 'generateEmails'])->name('api-data-generate-emails');
+        Route::post('/generate/{site_id}/fields', [DataController::class, 'generateFields'])->name('api-data-generate-fields');
+        Route::post('/generate/{site_id}/entry-updates', [DataController::class, 'generateEntryUpdates'])->name('api-data-generate-entry-updates');
+
     });
 
 });
